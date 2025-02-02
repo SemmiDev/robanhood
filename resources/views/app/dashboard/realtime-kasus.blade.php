@@ -19,19 +19,20 @@
 
                 </div>
 
-                <div class="page-title-right">
-                    <label for="update-interval" class="form-label me-2">Perbarui setiap:</label>
-                    <select id="update-interval" class="form-select d-inline w-auto" style="display: inline-block;">
+                <div class="page-title-right d-flex flex-wrap align-items-center gap-2">
+                    <label for="update-interval" class="form-label me-2 mb-0 text-center text-md-start">Perbarui setiap:</label>
+                    <select id="update-interval" class="form-select w-100 w-md-auto">
                         <option value="1000">1 detik</option>
                         <option value="2000">2 detik</option>
                         <option value="3000" selected>3 detik</option>
                         <option value="4000">4 detik</option>
                         <option value="5000">5 detik</option>
                     </select>
-                    <p id="last-update" class="d-inline-block ms-3">
+                    <p id="last-update" class="mb-0 text-center text-md-start">
                         Terakhir di update {{ now()->format('Y-m-d H:i:s') }}
                     </p>
                 </div>
+
 
             </div>
         </div>
@@ -264,10 +265,17 @@
             });
 
             // Event listener untuk filter dan sorting
-            document.getElementById('filter-keparahan').addEventListener('change', loadData);
-            document.getElementById('filter-status').addEventListener('change', loadData);
-            document.getElementById('sort-by').addEventListener('change', loadData);
-            document.getElementById('sort-order').addEventListener('change', loadData);
+            // Event listener untuk filter dan sorting
+            ['filter-keparahan', 'filter-status', 'sort-by', 'sort-order'].forEach(id => {
+                const element = document.getElementById(id);
+                element.addEventListener('change', () => setTimeout(loadData, 50));
+                element.addEventListener('input', () => setTimeout(loadData, 50)); // Tambahan untuk mobile
+            });
+
+            // document.getElementById('filter-keparahan').addEventListener('change', loadData);
+            // document.getElementById('filter-status').addEventListener('change', loadData);
+            // document.getElementById('sort-by').addEventListener('change', loadData);
+            // document.getElementById('sort-order').addEventListener('change', loadData);
 
             // Mulai interval pembaruan awal
             startInterval();
