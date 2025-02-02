@@ -55,14 +55,14 @@
                 },
                 function(error) {
                     console.error("Error getting location:", error.message);
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Lokasi Tidak Tersedia',
-                        text: 'Silahkan aktifkan izin lokasi terlebih dahulu',
-                        confirmButtonText: 'OK'
-                    }).then(() => {
-                        getCurrentLocation(); // Cek ulang setelah klik OK
-                    });
+                    // Swal.fire({
+                    //     icon: 'warning',
+                    //     title: 'Lokasi Tidak Tersedia',
+                    //     text: 'Silahkan aktifkan izin lokasi terlebih dahulu',
+                    //     confirmButtonText: 'OK'
+                    // }).then(() => {
+                    //     getCurrentLocation(); // Cek ulang setelah klik OK
+                    // });
                 }, {
                     enableHighAccuracy: true,
                     timeout: 10000,
