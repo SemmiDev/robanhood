@@ -1,4 +1,4 @@
-/vendor/
+# /vendor/
 node_modules/
 npm-debug.log
 yarn-error.log
@@ -30,7 +30,7 @@ Homestead.json
 /public/storage
 /storage/*.key
 /storage/pail
-/vendor
+# /vendor
 .env
 .env.backup
 .env.production
