@@ -1,0 +1,119 @@
+//
+// _chat.scss
+//
+
+.chat-wrapper {
+    position: relative;
+    overflow-x: hidden;
+}
+
+// chat left sidebar
+.chat-leftsidebar {
+    height: calc(100vh - 137px);
+    position: relative;
+    background-color: var(--#{$prefix}secondary-bg);
+
+    @media (min-width: 992px) {
+        min-width: 300px;
+        max-width: 300px;
+        height: calc(100vh - #{$header-height} - #{$footer-height} - 8px);
+    }
+}
+
+// Sisanya sama, yang diubah hanya bagian user-chat
+.user-chat {
+    background: url("../images/chat-bg-pattern.png");
+    transition: all 0.4s;
+    position: relative;
+    background-color: var(--#{$prefix}body-bg);
+
+    @media (max-width: 991.98px) {
+        // Hapus position: absolute
+        position: relative;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        // Hapus visibility: hidden dan transform
+        z-index: 1;
+        padding-top: 0; // Kurangi padding top
+    }
+
+    .chat-content {
+        position: relative;
+        height: 100%;
+        display: flex !important; // Selalu tampilkan
+        flex-direction: column;
+    }
+
+    // Hapus class .user-chat-show karena tidak diperlukan lagi
+}
+
+.user-chat-topbar {
+    border-bottom: 1px solid transparent;
+    background-color: var(--#{$prefix}secondary-bg);
+    @media (max-width: 991.98px) {
+        position: sticky; // Ganti fixed jadi sticky
+        top: 0;
+        z-index: 2;
+    }
+}
+
+// Perbaikan untuk area chat conversation
+.chat-conversation {
+    height: calc(100vh - 299px);
+    flex: 1;
+    overflow-y: auto;
+
+    @media (max-width: 991.98px) {
+        height: calc(100vh - 180px); // Sesuaikan height
+        padding-bottom: 60px; // Tambah padding bottom untuk input
+    }
+
+    .simplebar-content-wrapper {
+        display: flex;
+        flex-direction: column;
+
+        .simplebar-content {
+            margin-top: auto;
+        }
+    }
+}
+
+// Perbaikan untuk input section
+.chat-input-section {
+    border-top: 1px solid transparent;
+    background-color: var(--#{$prefix}secondary-bg);
+    position: sticky; // Ganti jadi sticky
+    bottom: 0;
+    z-index: 3;
+    padding: 10px 15px;
+
+    @media (max-width: 991.98px) {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+    }
+}
+
+// Tambahan untuk memastikan scroll berfungsi dengan baik
+.chat-content {
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+// Perbaikan untuk reply card
+.replyCard {
+    position: fixed; // Ganti absolute jadi fixed
+    left: 0;
+    right: 0;
+    bottom: 60px; // Sesuaikan dengan tinggi input
+    z-index: 4;
+
+    &.show {
+        transform: translateY(0); // Hapus transform yang tidak perlu
+        opacity: 1;
+    }
+}
