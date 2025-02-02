@@ -34,9 +34,9 @@
                 console.info("user id = " + userId);
 
                 // Check if onesignalId is defined and not empty
-                if (onesignalId && onesignalId.trim() !== '' && onesignalId.trim() != 'undefined') {
+                if (userId && userId.trim() !== '' && userId.trim() != 'undefined') {
                     $.ajax({
-                        url: '/onesignal/register?oneSignalId=' + onesignalId,
+                        url: '/onesignal/register?oneSignalId=' + userId,
                         method: 'GET',
                         success: function(response) {
                             console.info('Successfully registered OneSignal ID');
