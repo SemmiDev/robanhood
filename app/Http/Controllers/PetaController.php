@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Helpers\ProfilePhoto;
+use App\Http\Controllers\Helpers\PushNotification;
 use App\Models\AnggotaPenanganan;
 use App\Models\Kasu;
 use App\Models\Notifikasi;
@@ -199,6 +200,14 @@ class PetaController extends Controller
                 'jenis' => 'penugasan',
                 'read' => false,
             ]);
+
+            if ($userAnggota->onesignal_id) {
+                $title = "Penugasan Baru";
+                $body = 'Admin menugaskan anda untuk menangani kasus ' . $pesanSingkat;
+                $url = "/manajemen-kasus/$kasusId/show";
+                $push[] = $userAnggota->onesignal_id;
+                PushNotification::SendOneSignalNotification($push, $title, $body, $url = $url);
+            }
 
             DB::commit();
             return redirect(route('manajemenKasus.show', ['id' => $kasusId]))

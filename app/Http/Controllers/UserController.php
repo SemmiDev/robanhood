@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Helpers\PushNotification;
 use App\Models\Kasu;
 use App\Models\Notifikasi;
 use App\Models\PengaturanWebsite;
@@ -65,6 +66,7 @@ class UserController extends Controller
     ", [$latitude, $longitude, $latitude, $radiusMeter]);
 
             // Kirim notifikasi untuk setiap kasus yang ditemukan
+
             foreach ($listKasus as $kasus) {
                 $notifikasi = Notifikasi::where('user_id', $user->id)
                     ->where('kasus_id', $kasus->id)
@@ -82,6 +84,14 @@ class UserController extends Controller
                         'jenis' => 'kasus_sekitar',
                         'read' => false,
                     ]);
+
+                    $title = "Kasus Terdekat";
+                    $body = $pesanSingkat;
+                    $url = "/manajemen-kasus/$kasus->id/show";
+
+                    $push[] = $user->onesignal_id;
+
+                    PushNotification::SendOneSignalNotification($push, $title, $body, $url = $url);
                 }
             }
         }

@@ -377,41 +377,45 @@ class ManajemenKasusController extends Controller
         $kasus->save();
 
         // Tangani logika ketua
-        if ($request->has('ketua')) {
-            $currentKetua = AnggotaPenanganan::where('kasus_id', $id)
-                ->where('peran', 'KETUA')
-                ->first();
+        // if ($request->has('ketua')) {
+        //     $currentKetua = AnggotaPenanganan::where('kasus_id', $id)
+        //         ->where('peran', 'KETUA')
+        //         ->first();
 
-            if ($currentKetua) {
-                // Jika ketua sudah ada, ubah jadi anggota
-                $currentKetua->peran = 'ANGGOTA';
-                $currentKetua->save();
-            }
+        //     if ($currentKetua) {
+        //         // Jika ketua sudah ada, ubah jadi anggota
+        //         $currentKetua->peran = 'ANGGOTA';
+        //         $currentKetua->save();
+        //     }
 
-            // Perbarui atau buat ketua baru
-            $newKetua = AnggotaPenanganan::updateOrCreate(
-                ['user_id' => $request->get('ketua'), 'kasus_id' => $id],
-                ['peran' => 'KETUA', 'selesai' => false, 'selesai_pada' => null, 'poin_diperoleh' => 0]
-            );
+        //     // Perbarui atau buat ketua baru
+        //     $newKetua = AnggotaPenanganan::updateOrCreate(
+        //         ['user_id' => $request->get('ketua'), 'kasus_id' => $id],
+        //         ['peran' => 'KETUA', 'selesai' => false, 'selesai_pada' => null, 'poin_diperoleh' => 0]
+        //     );
 
-            // Ubah status user ketua
-            $userKetua = User::find($request->get('ketua'));
-            $userKetua->status = "SEDANG_BERTUGAS";
-            $userKetua->save();
+        //     // Ubah status user ketua
+        //     $userKetua = User::find($request->get('ketua'));
+        //     $userKetua->status = "SEDANG_BERTUGAS";
+        //     $userKetua->save();
 
-            // Batasi 2 kata
-            $pesanSingkat = implode(' ', array_slice(explode(' ', $kasus->judul), 0, 2));
+        //     // Batasi 2 kata
+        //     $pesanSingkat = implode(' ', array_slice(explode(' ', $kasus->judul), 0, 2));
 
-            // buat notifikasi
-            Notifikasi::create([
-                'kasus_id' => $id,
-                'user_id' => $userKetua->id,
-                'push_notifikasi_terkirim' => true,
-                'pesan' => 'Admin menugaskan anda untuk menangani kasus ' . $pesanSingkat,
-                'jenis' => 'penugasan',
-                'read' => false,
-            ]);
-        }
+        //     // buat notifikasi
+        //     Notifikasi::create([
+        //         'kasus_id' => $id,
+        //         'user_id' => $userKetua->id,
+        //         'push_notifikasi_terkirim' => true,
+        //         'pesan' => 'Admin menugaskan anda untuk menangani kasus ' . $pesanSingkat,
+        //         'jenis' => 'penugasan',
+        //         'read' => false,
+        //     ]);
+        // }
+
+        // Batasi 2 kata
+        $pesanSingkat = implode(' ', array_slice(explode(' ', $kasus->judul), 0, 2));
+        $push = [];
 
         // Tangani logika anggota
         if ($request->has('anggota') && is_array($request->anggota)) {
@@ -429,9 +433,6 @@ class ManajemenKasusController extends Controller
                     $userAnggota->save();
                 }
 
-                // Batasi 2 kata
-                $pesanSingkat = implode(' ', array_slice(explode(' ', $kasus->judul), 0, 2));
-
                 // buat notifikasi
                 Notifikasi::create([
                     'kasus_id' => $id,
@@ -441,7 +442,19 @@ class ManajemenKasusController extends Controller
                     'jenis' => 'penugasan',
                     'read' => false,
                 ]);
+
+                if ($userAnggota->onesignal_id) {
+                    $push[] = $userAnggota->onesignal_id;
+                }
             }
+        }
+
+        if (count($push) > 0) {
+            $title = "Penugasan Baru";
+            $body = 'Admin menugaskan anda untuk menangani kasus ' . $pesanSingkat;
+            $url = "/manajemen-kasus/$id/show";
+
+            PushNotification::SendOneSignalNotification($push, $title, $body, $url = $url);
         }
 
         return back()->with('success', 'Anggota berhasil ditugaskan');
@@ -630,6 +643,16 @@ class ManajemenKasusController extends Controller
                 'jenis' => 'penugasan',
                 'read' => false,
             ]);
+
+            if ($user->onesignal_id) {
+                $title = "Verifikasi Berkas Kasus";
+                $body = 'Selamat, Admin baru saja menerima bukti pengerjaan anda, cek sekarang';
+                $url = "/manajemen-kasus/$kasus_id/show";
+
+                $push[] = $user->onesignal_id;
+
+                PushNotification::SendOneSignalNotification($push, $title, $body, $url = $url);
+            }
         } else {
             $anggotaPenanganan->selesai = 0;
             $anggotaPenanganan->poin_diperoleh = 0;
@@ -652,6 +675,16 @@ class ManajemenKasusController extends Controller
                 'jenis' => 'penugasan',
                 'read' => false,
             ]);
+
+            if ($user->onesignal_id) {
+                $title = "Verifikasi Berkas Kasus";
+                $body = 'Mohon maaf, Admin menolak pengerjaan anda, cek sekarang';
+                $url = "/manajemen-kasus/$kasus_id/show";
+
+                $push[] = $user->onesignal_id;
+
+                PushNotification::SendOneSignalNotification($push, $title, $body, $url = $url);
+            }
         }
 
         return back()->with('success', 'Verifikasi pekerjaan berhasil disimpan.');
@@ -749,6 +782,8 @@ class ManajemenKasusController extends Controller
         }
 
         $listAdmin = User::where('peran', '=', 'ADMIN')->get();
+        $push = [];
+
         foreach ($listAdmin as $adm) {
             Notifikasi::create([
                 'kasus_id' => $id,
@@ -758,6 +793,18 @@ class ManajemenKasusController extends Controller
                 'jenis' => 'penugasan',
                 'read' => false,
             ]);
+
+            if ($adm->onesignal_id) {
+                $push[] = $adm->onesignal_id;
+            }
+        }
+
+        if (count($push) > 0) {
+            $title = "Verifikasi Berkas Kasus";
+            $body = auth()->user()->name . ' baru saja mengirim bukti pengerjaan, cek sekarang';
+            $url = "/manajemen-kasus/$id/show";
+
+            PushNotification::SendOneSignalNotification($push, $title, $body, $url = $url);
         }
 
         return back()->with('success', 'Terima kasih, Pekerjaan anda akan di proses oleh Admin, silahkan ditunggu ya');
