@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Helpers\PushNotification;
 use App\Models\BuktiKasu;
 use App\Models\Kasu;
 use App\Models\KategoriKasu;
+use App\Models\Notifikasi;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -100,6 +103,34 @@ class LaporkanKasusController extends Controller
                         'keterangan' => 'Bukti kejadian'
                     ]);
                 }
+            }
+
+            // kirim notifikasi ke admin
+            $push = [];
+            $listAdmin = User::where('peran', '=', 'ADMIN')->get();
+
+            foreach($listAdmin as $adm) {
+                // buat notifikasi
+                Notifikasi::create([
+                    'kasus_id' => $kasus->id,
+                    'user_id' => $adm->id,
+                    'push_notifikasi_terkirim' => true,
+                    'pesan' => auth()->user()->name . ' baru saja melaporkan kasus, cek sekarang',
+                    'jenis' => 'kasus_sekitar',
+                    'read' => false,
+                ]);
+
+                if ($adm->onesignal_id) {
+                    $push[] = $adm->onesignal_id;
+                }
+            }
+
+            if (count($push) > 0) {
+                $title = "Kasus Baru";
+                $body = auth()->user()->name . ' baru saja melaporkan kasus, cek sekarang';
+                $url = "/manajemen-kasus/$kasus->id/show";
+
+                PushNotification::SendOneSignalNotification($push, $title, $body, $url = $url);
             }
 
             DB::commit();
