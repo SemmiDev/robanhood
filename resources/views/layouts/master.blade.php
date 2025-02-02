@@ -16,28 +16,41 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"
         type="text/css" />
 
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
         window.OneSignalDeferred = window.OneSignalDeferred || [];
         OneSignalDeferred.push(async function(OneSignal) {
-            await OneSignal.init({
-                appId: "37ff0e3f-4bea-494a-b17f-0da06fa8bba4",
-            });
+            try {
+                await OneSignal.init({
+                    appId: "37ff0e3f-4bea-494a-b17f-0da06fa8bba4",
+                });
 
-            console.info("onesignalId = " + OneSignal.User._currentUser.onesignalId);
-            console.info("user id = " + OneSignal.User.PushSubscription._id);
+                const onesignalId = OneSignal.User._currentUser.onesignalId;
+                const userId = OneSignal.User.PushSubscription._id;
 
-            $.ajax({
-                url: '/onesignal/register?oneSignalId=' + OneSignal.User._currentUser.onesignalId,
-                method: 'GET',
-                success: function(response) {},
-                error: function(xhr, status, error) {
-                    console.error('Error fetching kasus data:', error);
+                console.info("onesignalId = " + onesignalId);
+                console.info("user id = " + userId);
+
+                // Check if onesignalId is defined and not empty
+                if (onesignalId && onesignalId.trim() !== '' && onesignalId.trim() != 'undefined') {
+                    $.ajax({
+                        url: '/onesignal/register?oneSignalId=' + onesignalId,
+                        method: 'GET',
+                        success: function(response) {
+                            console.info('Successfully registered OneSignal ID');
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error registering OneSignal ID:', error);
+                        }
+                    });
+                } else {
+                    console.warn('OneSignal ID is undefined or empty. Skipping registration.');
                 }
-            });
+            } catch (error) {
+                console.error('Error initializing OneSignal:', error);
+            }
         });
     </script>
 </head>
