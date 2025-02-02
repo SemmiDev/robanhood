@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Helpers\Constant;
+use App\Http\Controllers\Helpers\PushNotification;
 use App\Models\AnggotaPenanganan;
 use App\Models\BuktiPenyelesaianKasu;
 use App\Models\Chat;
@@ -510,7 +511,7 @@ class ManajemenKasusController extends Controller
 
     public function sendChat(Request $request, $id)
     {
-        $kasus = Kasu::with(['anggota_penanganans'])->where('id', '=', $id)->first();
+        $kasus = Kasu::with(['user','anggota_penanganans', 'anggota_penanganans.user'])->where('id', '=', $id)->first();
         $listAdmin = User::where('peran', '=', 'ADMIN')->get();
 
         // Menyimpan pesan
@@ -524,6 +525,8 @@ class ManajemenKasusController extends Controller
         // Batasi 2 kata
         $pesanSingkat = implode(' ', array_slice(explode(' ', $pesan), 0, 2));
 
+        $push = [];
+
         // Kirim notifikasi untuk anggota penanganan, kecuali pengirim pesan (dirinya sendiri)
         foreach ($kasus->anggota_penanganans as $anggota) {
             if ($anggota->user_id !== auth()->user()->id) {  // Cek apakah anggota bukan pengirim pesan
@@ -535,6 +538,10 @@ class ManajemenKasusController extends Controller
                     'jenis' => 'chat',
                     'read' => false,
                 ]);
+
+                if ($anggota->user->onesignal_id) {
+                    $push[] = $anggota->user->onesignal_id;
+                }
             }
         }
 
@@ -549,6 +556,10 @@ class ManajemenKasusController extends Controller
                     'jenis' => 'chat',
                     'read' => false,
                 ]);
+
+                if ($adm->onesignal_id) {
+                    $push[] = $adm->onesignal_id;
+                }
             }
         }
 
@@ -562,6 +573,18 @@ class ManajemenKasusController extends Controller
                 'jenis' => 'chat',
                 'read' => false,
             ]);
+
+            if ($kasus->user->onesignal_id) {
+                $push[] = $kasus->user->onesignal_id;
+            }
+        }
+
+        if (count($push) > 0) {
+            $title = "Pesan Baru";
+            $body = 'Ada pesan baru dari ' . auth()->user()->name . ': ' . $pesanSingkat;
+            $url = "/manajemen-kasus/$id/chat";
+
+            PushNotification::SendOneSignalNotification($push, $title, $body, $url = $url);
         }
 
         return back()->with('success', 'Pesan berhasil dikirim');
