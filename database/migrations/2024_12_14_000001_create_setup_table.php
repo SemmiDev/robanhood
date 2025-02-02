@@ -80,8 +80,8 @@ class CreateSetupTable extends Migration
 
         Schema::create('anggota_penanganan', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('kasus_id')->constrained('kasus')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('kasus_id')->constrained('kasus')->cascadeOnDelete()->cascadeOnUpdate();
             $table->enum('peran', ['KETUA', 'ANGGOTA'])->default('ANGGOTA');
             $table->boolean('aktif')->default(true); // menangani / tidak jadi menangani.
             $table->text('alasan_dibatalkan')->nullable(); // menangani / tidak jadi menangani.

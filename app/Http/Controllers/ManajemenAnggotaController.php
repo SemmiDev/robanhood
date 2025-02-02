@@ -18,12 +18,12 @@ class ManajemenAnggotaController extends Controller
             'profil_polisis.pangkat_polisi'
         ]);
 
-        $query->when(request()->has('q'), function($query) {
-            $query->where(function($q) {
+        $query->when(request()->has('q'), function ($query) {
+            $query->where(function ($q) {
                 $q->where('name', 'like', '%' . request('q') . '%')
-                  ->orWhereHas('profil_polisis', function ($subQuery) {
-                      $subQuery->where('nrp', 'like', '%' . request('q') . '%');
-                  });
+                    ->orWhereHas('profil_polisis', function ($subQuery) {
+                        $subQuery->where('nrp', 'like', '%' . request('q') . '%');
+                    });
             });
         });
 
@@ -45,8 +45,8 @@ class ManajemenAnggotaController extends Controller
 
             if ($orderBy == 'nrp' || $orderBy == 'jenis_kelamin') {
                 $query->join('profil_polisi', 'users.id', '=', 'profil_polisi.user_id')
-                      ->orderBy('profil_polisi.' . $orderBy, $orderType)
-                      ->select('users.*');
+                    ->orderBy('profil_polisi.' . $orderBy, $orderType)
+                    ->select('users.*');
             } else if ($orderBy == 'name') {
                 $query->orderBy('name', $orderType);
             }
@@ -59,14 +59,15 @@ class ManajemenAnggotaController extends Controller
         ]);
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         $user = User::with([
             'profil_polisis',
             'profil_polisis.unit_polisi',
             'profil_polisis.pangkat_polisi'
         ])
-        ->where('id', '=', $id)
-        ->first();
+            ->where('id', '=', $id)
+            ->first();
 
         if (!$user) {
             return redirect(route('manajemenAnggota'))->with('error', 'Anggota tidak ditemukan');
@@ -77,14 +78,31 @@ class ManajemenAnggotaController extends Controller
         ]);
     }
 
-    public function edit($id) {
+    public function destroy($id)
+    {
+        // Cari user berdasarkan ID
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        // Hapus user
+        $user->delete();
+
+        return redirect(route('manajemenAnggota'))->with('success', $user->name . ' Berhasil dihapus');
+    }
+
+
+    public function edit($id)
+    {
         $user = User::with([
             'profil_polisis',
             'profil_polisis.unit_polisi',
             'profil_polisis.pangkat_polisi'
         ])
-        ->where('id', '=', $id)
-        ->first();
+            ->where('id', '=', $id)
+            ->first();
 
         if (!$user) {
             return redirect(route('manajemenAnggota'))->with('error', 'Anggota tidak ditemukan');

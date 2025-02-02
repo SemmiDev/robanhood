@@ -90,9 +90,22 @@
 
                     </ul>
                     <div class="flex-shrink-0">
-                        <a href="{{ route('manajemenAnggota.edit', ['id' => $user->id]) }}" class="btn btn-success"><i
-                                class="ri-edit-box-line align-bottom"></i> Edit Data Profil</a>
+                        <a href="{{ route('manajemenAnggota.edit', ['id' => $user->id]) }}" class="btn btn-success">
+                            <i class="ri-edit-box-line align-bottom"></i> Edit Data Profil
+                        </a>
+
+                        @if ($user->id != auth()->user()->id)
+                        <form action="{{ route('manajemenAnggota.destroy', ['id' => $user->id]) }}" method="POST" style="display: inline-block;"
+                              onsubmit="return confirm('Apakah Anda yakin ingin menghapus user ini?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">
+                                <i class="ri-delete-bin-line align-bottom"></i> Hapus User
+                            </button>
+                        </form>
+                        @endif
                     </div>
+
                 </div>
                 <!-- Tab panes -->
                 <div class="tab-content pt-4 text-muted">

@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('/manajemen-anggota', [App\Http\Controllers\ManajemenAnggotaController::class, 'index'])->name('manajemenAnggota');
         Route::get('/manajemen-anggota/{id}/show', [App\Http\Controllers\ManajemenAnggotaController::class, 'show'])->name('manajemenAnggota.show');
         Route::get('/manajemen-anggota/{id}/edit', [App\Http\Controllers\ManajemenAnggotaController::class, 'edit'])->name('manajemenAnggota.edit');
+        Route::delete('/manajemen-anggota/{id}/destroy', [App\Http\Controllers\ManajemenAnggotaController::class, 'destroy'])->name('manajemenAnggota.destroy');
 
         Route::get('/manajemen-kategori-kasus', [App\Http\Controllers\ManajemenKategoriKasusController::class, 'index'])->name('manajemenKategoriKasus');
         Route::get('/manajemen-kategori-kasus/create', [App\Http\Controllers\ManajemenKategoriKasusController::class, 'create'])->name('manajemenKategoriKasus.create');
