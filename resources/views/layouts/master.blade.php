@@ -81,24 +81,32 @@
 <!-- JAVASCRIPT -->
 @include('layouts.vendor-scripts')
 
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "37ff0e3f-4bea-494a-b17f-0da06fa8bba4",
-    });
-
-    console.info("onesignalId = " + OneSignal.User._currentUser.onesignalId);
-    console.info("user id = " + OneSignal.User.PushSubscription._id);
-    console.info(JSON.stringify(OneSignal.User));
-  });
-</script>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
     integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="{{ URL::asset('build/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+            appId: "37ff0e3f-4bea-494a-b17f-0da06fa8bba4",
+        });
+
+        console.info("onesignalId = " + OneSignal.User._currentUser.onesignalId);
+        console.info("user id = " + OneSignal.User.PushSubscription._id);
+
+        $.ajax({
+            url: '/onesignal/register?oneSignalId=' + OneSignal.User._currentUser.onesignalId,
+            method: 'GET',
+            success: function(response) {},
+            error: function(xhr, status, error) {
+                console.error('Error fetching kasus data:', error);
+            }
+        });
+    });
+</script>
 
 <script>
     function updateUserLocation(latitude, longitude) {

@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('no_telepon')->nullable();
             $table->string('no_whatsapp')->nullable();
             $table->string('nik')->nullable();
+            $table->string('onesignal_id')->nullable();
 
             $table->text('foto_kk')->nullable();
             $table->text('foto_ktp')->nullable();

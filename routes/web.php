@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\OneSignalController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,8 @@ Route::get('/', function () {
 })->name('index');
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
+
+    Route::get('/onesignal/register', [OneSignalController::class, 'register']);
 
     Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'root'])->name('root');
 

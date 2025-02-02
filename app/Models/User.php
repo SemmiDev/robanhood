@@ -39,6 +39,7 @@ class User extends Authenticatable implements MustVerifyEmail
 		'google_id',
 		'avatar',
 		'peran',
+		'onesignal_id',
 		'password',
 		'aktif',
 		'acc',
