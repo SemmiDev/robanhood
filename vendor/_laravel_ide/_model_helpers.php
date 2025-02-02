@@ -1729,7 +1729,7 @@ namespace App\Models {
      * @property bool|null $read
      * @property float|null $jarak
      * @property string|null $pesan
-     * @property enum('chat','penugasan','kasus_sekitar')|null $jenis
+     * @property enum('chat','penugasan','kasus_sekitar','verifikasi_penanganan')|null $jenis
      * @property bool|null $push_notifikasi_terkirim
      * @property int $user_id
      * @property int $kasus_id
@@ -2715,6 +2715,7 @@ namespace App\Models {
      * @property string|null $google_id
      * @property string|null $foto_ktp
      * @property string|null $foto_kk
+     * @property string|null $onesignal_id
      * @property string|null $nik
      * @property string|null $no_whatsapp
      * @property string|null $no_telepon
@@ -2737,6 +2738,7 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder|User whereNoTelepon($value)
      * @method static \Illuminate\Database\Eloquent\Builder|User whereNoWhatsapp($value)
      * @method static \Illuminate\Database\Eloquent\Builder|User whereNik($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|User whereOnesignalId($value)
      * @method static \Illuminate\Database\Eloquent\Builder|User whereFotoKk($value)
      * @method static \Illuminate\Database\Eloquent\Builder|User whereFotoKtp($value)
      * @method static \Illuminate\Database\Eloquent\Builder|User whereGoogleId($value)

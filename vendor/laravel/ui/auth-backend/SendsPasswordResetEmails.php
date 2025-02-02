@@ -4,6 +4,7 @@ namespace Illuminate\Foundation\Auth;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 
@@ -27,6 +28,17 @@ trait SendsPasswordResetEmails
      */
     public function sendResetLinkEmail(Request $request)
     {
+
+        // cek dulu di database
+        $existingUser = DB::table('users')->where('email', $request->get('email'))->first();
+        if (!$existingUser) {
+            return redirect()->route('login')->with('error', 'Akun tidak ditemukan');
+        }
+
+        if (!$existingUser->acc) {
+            return redirect()->route('login')->with('error', 'Akun belum di ACC Admin');
+        }
+
         $this->validateEmail($request);
 
         // We will send the password reset link to this user. Once we have attempted
