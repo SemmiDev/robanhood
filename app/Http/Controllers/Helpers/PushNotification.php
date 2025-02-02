@@ -23,7 +23,8 @@ class PushNotification {
                 'include_subscription_ids' => is_array($oneSignalIds) ? $oneSignalIds : [$oneSignalIds],
                 'headings' => ['en' => $heading, 'id' => $heading],
                 'contents' => ['en' => $content, 'id' => $content],
-                "requireInteraction" => true,
+                'chrome_web_image' => url('/notification2.png'),
+                'chrome_web_icon' => url('/notification2.png'),
             ];
 
             // Add URL if provided
