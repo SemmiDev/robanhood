@@ -86,7 +86,7 @@
   window.OneSignalDeferred = window.OneSignalDeferred || [];
   OneSignalDeferred.push(async function(OneSignal) {
     await OneSignal.init({
-      appId: "7aef96e1-9a60-4fd1-b04a-e00bb6b808fa",
+      appId: "37ff0e3f-4bea-494a-b17f-0da06fa8bba4",
     });
 
     console.info("onesignalId = " + OneSignal.User._currentUser.onesignalId);
