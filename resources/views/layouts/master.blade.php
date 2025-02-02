@@ -81,6 +81,20 @@
 <!-- JAVASCRIPT -->
 @include('layouts.vendor-scripts')
 
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "7aef96e1-9a60-4fd1-b04a-e00bb6b808fa",
+    });
+
+    console.info("onesignalId = " + OneSignal.User._currentUser.onesignalId);
+    console.info("user id = " + OneSignal.User.PushSubscription._id);
+    console.info(JSON.stringify(OneSignal.User));
+  });
+</script>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
     integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -229,6 +243,7 @@
         fetchNotifications();
     });
 </script>
+
 
 </body>
 
