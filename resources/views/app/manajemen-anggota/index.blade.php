@@ -120,7 +120,7 @@
                                         </th>
                                         <th data-sort="company_name" scope="col">Status Pendaftaran
                                         </th>
-                                        <th data-sort="company_name" scope="col">Terakhir Login
+                                        <th data-sort="company_name" scope="col">Terakhir Aktif
                                         </th>
                                         <th data-sort="phone" scope="col">Total Poin</th>
                                         <th scope="col"></th>
@@ -224,7 +224,10 @@
 
                                             <td class="company_name">
                                                 <span class="text-muted">
-                                                    {{ $user->last_login ? \Carbon\Carbon::parse($user->last_login)->format('d M, Y H:i') : '-' }}
+                                                    {{ $user->update_lokasi_terakhir ? \Carbon\Carbon::parse($user->update_lokasi_terakhir)->format('d M, Y H:i') : '' }}
+                                                    <div>
+                                                        {{ $user->update_lokasi_terakhir ? \Carbon\Carbon::parse($user->update_lokasi_terakhir)->diffForHumans() : '' }}
+                                                    </div>
                                                 </span>
 
                                             </td>
