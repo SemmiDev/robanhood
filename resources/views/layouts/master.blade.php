@@ -166,11 +166,7 @@
                     }).then(() => {
                         checkLocation(); // Cek ulang setelah klik OK
                     });
-                }, {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
+                },  {enableHighAccuracy:false,maximumAge:Infinity, timeout:60000}
             );
         } else {
             Swal.fire({

@@ -236,11 +236,7 @@
 
             // Initialize geolocation watching
             if ("geolocation" in navigator) {
-                const options = {
-                    enableHighAccuracy: true,
-                    timeout: 5000,
-                    maximumAge: 0
-                };
+                const options = {enableHighAccuracy:false,maximumAge:Infinity, timeout:60000}
 
                 // Watch position and update marker
                 navigator.geolocation.watchPosition(function(position) {

@@ -160,18 +160,12 @@
             function startLocationTracking() {
                 if ("geolocation" in navigator) {
                     // Dapatkan lokasi awal
-                    navigator.geolocation.getCurrentPosition(updatePoliceMarker, handleLocationError, {
-                        enableHighAccuracy: true
-                    });
+                    navigator.geolocation.getCurrentPosition(updatePoliceMarker, handleLocationError, {enableHighAccuracy:false,maximumAge:Infinity, timeout:60000});
 
                     // Mulai watching lokasi
                     const watchId = navigator.geolocation.watchPosition(
                         updatePoliceMarker,
-                        handleLocationError, {
-                            enableHighAccuracy: true,
-                            maximumAge: 1000, // Update setiap 1 detik
-                            timeout: 5000
-                        }
+                        handleLocationError, {enableHighAccuracy:false,maximumAge:Infinity, timeout:60000}
                     );
 
                     // Simpan watchId jika ingin menghentikan tracking nanti
