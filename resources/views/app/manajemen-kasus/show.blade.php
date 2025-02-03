@@ -851,7 +851,7 @@
                                                     method="POST" id="hapusAnggotaForm">
                                                     @csrf
 
-                                                    <button type="button" class="btn btn-danger"
+                                                    <button type="button" class="btn btn-sm btn-danger"
                                                         onclick="confirmHapusAnggota()">Hapus
                                                     </button>
                                                 </form>
