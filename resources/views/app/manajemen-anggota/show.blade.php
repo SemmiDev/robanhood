@@ -178,12 +178,9 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="card-title">Penyelesaian Kasus Baru yang Terlibat</h5>
-                                            @foreach ($user->anggota_penanganans as $index => $anggotaPenanganan)
+                                            @forelse ($user->anggota_penanganans as $index => $anggotaPenanganan)
                                                 @if ($index == 4)
-                                                    {
                                                 @break
-
-                                                }
                                             @endif
 
                                             <div
@@ -266,7 +263,9 @@
                                                 </div>
                                                 <!-- end card body -->
                                             </div>
-                                        @endforeach
+                                        @empty
+                                        <span class="text-muted">Belum ada data.</span>
+                                        @endforelse
                                     </div>
                                 </div>
                             @endif
@@ -281,7 +280,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    @foreach ($user->anggota_penanganans as $index => $anggotaPenanganan)
+                                    @forelse ($user->anggota_penanganans as $index => $anggotaPenanganan)
                                         <div class="col-xxl-3 col-sm-6">
                                             <div class="card profile-project-card shadow-none profile-project-info">
                                                 <div class="card-body p-4">
@@ -364,7 +363,9 @@
 
                                             <!-- end card -->
                                         </div>
-                                    @endforeach
+                                    @empty
+                                    <span class="text-muted">Belum ada data.</span>
+                                    @endforelse
                                 </div>
                                 <!--end row-->
                             </div>

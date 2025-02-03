@@ -157,95 +157,94 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Penyelesaian Kasus Baru yang Terlibat</h5>
-                                        @foreach ($user->anggota_penanganans as $index => $anggotaPenanganan)
+                                        @forelse ($user->anggota_penanganans as $index => $anggotaPenanganan)
                                             @if ($index == 4)
-                                                {
-                                            @break
+                                              @break
+                                            @endif
 
-                                            }
-                                        @endif
-
-                                        <div
-                                            class="card profile-project-card shadow-none profile-project-info mb-0 mt-3">
-                                            <div class="card-body p-4">
-                                                <div class="d-flex">
-                                                    <div class="flex-grow-1 text-muted overflow-hidden">
-                                                        <h5 class="fs-14 text-truncate mb-1">
-                                                            <a href="{{route('manajemenKasus.show', ['id' => $anggotaPenanganan->kasu->id])}}" class="text-body">
-                                                                {{ $anggotaPenanganan->kasu->judul }}
-                                                            </a>
-                                                        </h5>
-                                                        <p class="text-muted text-truncate mb-0">
-                                                            Waktu Kejadian: <span class="fw-semibold text-dark">
-                                                                {{ \Carbon\Carbon::parse($anggotaPenanganan->kasu->waktu_kejadian)->diffForHumans() }}
-                                                            </span></p>
-                                                    </div>
-                                                    <div class="flex-shrink-0 ms-2">
-                                                        <div class="badge bg-warning-subtle text-warning fs-10">
-                                                            {{ $anggotaPenanganan->selesai  == 0 ? 'Dalam Proses' : 'Selesai' }}
+                                            <div
+                                                class="card profile-project-card shadow-none profile-project-info mb-0 mt-3">
+                                                <div class="card-body p-4">
+                                                    <div class="d-flex">
+                                                        <div class="flex-grow-1 text-muted overflow-hidden">
+                                                            <h5 class="fs-14 text-truncate mb-1">
+                                                                <a href="{{ route('manajemenKasus.show', ['id' => $anggotaPenanganan->kasu->id]) }}"
+                                                                    class="text-body">
+                                                                    {{ $anggotaPenanganan->kasu->judul }}
+                                                                </a>
+                                                            </h5>
+                                                            <p class="text-muted text-truncate mb-0">
+                                                                Waktu Kejadian: <span class="fw-semibold text-dark">
+                                                                    {{ \Carbon\Carbon::parse($anggotaPenanganan->kasu->waktu_kejadian)->diffForHumans() }}
+                                                                </span></p>
+                                                        </div>
+                                                        <div class="flex-shrink-0 ms-2">
+                                                            <div class="badge bg-warning-subtle text-warning fs-10">
+                                                                {{ $anggotaPenanganan->selesai == 0 ? 'Dalam Proses' : 'Selesai' }}
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="d-flex mt-4">
-                                                    <div class="flex-grow-1">
-                                                        <div class="d-flex align-items-center gap-2">
-                                                            <div>
-                                                                <h5 class="fs-12 text-muted mb-0">
-                                                                    Tim :</h5>
-                                                            </div>
-                                                            <div class="avatar-group">
-                                                                @php
-                                                                    $ketua = $anggotaPenanganan->kasu->anggota_penanganans->firstWhere(
-                                                                        'peran',
-                                                                        'KETUA',
-                                                                    );
-                                                                    $anggotaLain = $anggotaPenanganan->kasu->anggota_penanganans->where(
-                                                                        'peran',
-                                                                        'ANGGOTA',
-                                                                    );
-                                                                @endphp
+                                                    <div class="d-flex mt-4">
+                                                        <div class="flex-grow-1">
+                                                            <div class="d-flex align-items-center gap-2">
+                                                                <div>
+                                                                    <h5 class="fs-12 text-muted mb-0">
+                                                                        Tim :</h5>
+                                                                </div>
+                                                                <div class="avatar-group">
+                                                                    @php
+                                                                        $ketua = $anggotaPenanganan->kasu->anggota_penanganans->firstWhere(
+                                                                            'peran',
+                                                                            'KETUA',
+                                                                        );
+                                                                        $anggotaLain = $anggotaPenanganan->kasu->anggota_penanganans->where(
+                                                                            'peran',
+                                                                            'ANGGOTA',
+                                                                        );
+                                                                    @endphp
 
-                                                                @if ($ketua)
-                                                                    <?php
-                                                                    $profilePhoto = \App\Http\Controllers\Helpers\ProfilePhoto::get($ketua->user->avatar, $ketua->user->name);
-                                                                    ?>
-                                                                    <a href="javascript:void(0);"
-                                                                        class="avatar-group-item"
-                                                                        data-bs-toggle="tooltip"
-                                                                        data-bs-placement="top"
-                                                                        data-bs-trigger="hover"
-                                                                        data-bs-original-title="{{ $ketua->user->name . ' (' . $ketua->peran . ')' }}">
-                                                                        <img src="{{ $profilePhoto }}"
-                                                                            alt=""
-                                                                            class="rounded-circle avatar-xs" />
-                                                                    </a>
-                                                                @endif
+                                                                    @if ($ketua)
+                                                                        <?php
+                                                                        $profilePhoto = \App\Http\Controllers\Helpers\ProfilePhoto::get($ketua->user->avatar, $ketua->user->name);
+                                                                        ?>
+                                                                        <a href="javascript:void(0);"
+                                                                            class="avatar-group-item"
+                                                                            data-bs-toggle="tooltip"
+                                                                            data-bs-placement="top"
+                                                                            data-bs-trigger="hover"
+                                                                            data-bs-original-title="{{ $ketua->user->name . ' (' . $ketua->peran . ')' }}">
+                                                                            <img src="{{ $profilePhoto }}"
+                                                                                alt=""
+                                                                                class="rounded-circle avatar-xs" />
+                                                                        </a>
+                                                                    @endif
 
-                                                                @forelse ($anggotaLain as $anggota)
-                                                                    <?php
-                                                                    $profilePhoto = \App\Http\Controllers\Helpers\ProfilePhoto::get($anggota->user->avatar, $anggota->user->name);
-                                                                    ?>
-                                                                    <a href="javascript:void(0);"
-                                                                        class="avatar-group-item"
-                                                                        data-bs-toggle="tooltip"
-                                                                        data-bs-placement="top"
-                                                                        data-bs-trigger="hover"
-                                                                        data-bs-original-title="{{ $anggota->user->name . ' (' . $anggota->peran . ')' }}">
-                                                                        <img src="{{ $profilePhoto }}"
-                                                                            alt=""
-                                                                            class="rounded-circle avatar-xs" />
-                                                                    </a>
-                                                                @empty
-
-                                                                @endforelse
+                                                                    @forelse ($anggotaLain as $anggota)
+                                                                        <?php
+                                                                        $profilePhoto = \App\Http\Controllers\Helpers\ProfilePhoto::get($anggota->user->avatar, $anggota->user->name);
+                                                                        ?>
+                                                                        <a href="javascript:void(0);"
+                                                                            class="avatar-group-item"
+                                                                            data-bs-toggle="tooltip"
+                                                                            data-bs-placement="top"
+                                                                            data-bs-trigger="hover"
+                                                                            data-bs-original-title="{{ $anggota->user->name . ' (' . $anggota->peran . ')' }}">
+                                                                            <img src="{{ $profilePhoto }}"
+                                                                                alt=""
+                                                                                class="rounded-circle avatar-xs" />
+                                                                        </a>
+                                                                    @empty
+                                                                    @endforelse
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <!-- end card body -->
                                             </div>
-                                            <!-- end card body -->
-                                        </div>
-                                    @endforeach
+                                        @empty
+                                        <span class="text-muted">Belum ada data.</span>
+                                        @endforelse
                                 </div>
                             </div><!-- end card -->
                         </div>
@@ -260,13 +259,14 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            @foreach ($user->anggota_penanganans as $index => $anggotaPenanganan)
+                            @forelse ($user->anggota_penanganans as $index => $anggotaPenanganan)
                                 <div class="col-xxl-3 col-sm-6">
                                     <div class="card profile-project-card shadow-none profile-project-info">
                                         <div class="card-body p-4">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1 text-muted overflow-hidden">
-                                                    <h5 class="fs-14 text-truncate"><a href="{{route('manajemenKasus.show', ['id' => $anggotaPenanganan->kasu->id])}}"
+                                                    <h5 class="fs-14 text-truncate"><a
+                                                            href="{{ route('manajemenKasus.show', ['id' => $anggotaPenanganan->kasu->id]) }}"
                                                             class="text-body">
                                                             {{ $anggotaPenanganan->kasu->judul }}
                                                         </a>
@@ -278,7 +278,7 @@
                                                 </div>
                                                 <div class="flex-shrink-0 ms-2">
                                                     <div class="badge bg-warning-subtle text-warning fs-10">
-                                                        {{ $anggotaPenanganan->selesai  == 0 ? 'Dalam Proses' : 'Selesai' }}
+                                                        {{ $anggotaPenanganan->selesai == 0 ? 'Dalam Proses' : 'Selesai' }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -331,7 +331,6 @@
                                                                         class="rounded-circle avatar-xs" />
                                                                 </a>
                                                             @empty
-
                                                             @endforelse
                                                         </div>
                                                     </div>
@@ -343,7 +342,9 @@
 
                                     <!-- end card -->
                                 </div>
-                            @endforeach
+                            @empty
+                            <span class="text-muted">Belum ada data.</span>
+                            @endforelse
 
                         </div>
                         <!--end row-->

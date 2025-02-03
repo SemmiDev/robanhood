@@ -64,7 +64,13 @@ class ManajemenAnggotaController extends Controller
         $user = User::with([
             'profil_polisis',
             'profil_polisis.unit_polisi',
-            'profil_polisis.pangkat_polisi'
+            'profil_polisis.pangkat_polisi',
+            'anggota_penanganans' => function ($query) {
+                $query->where('aktif', true) // Hanya ambil yang aktif
+                    ->orderBy('created_at', 'desc');
+            },
+            'anggota_penanganans.kasu',
+            'anggota_penanganans.kasu.anggota_penanganans',
         ])
             ->where('id', '=', $id)
             ->first();

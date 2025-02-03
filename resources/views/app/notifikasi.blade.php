@@ -29,7 +29,7 @@
 
                 <div class="card shadow-sm">
                     <div class="card-body p-0">
-                        @foreach ($groupedNotifikasi as $kategori => $notifikasis)
+                        @forelse ($groupedNotifikasi as $kategori => $notifikasis)
                             @if (count($notifikasis) > 0)
                                 <div class="bg-light px-3 py-2 fw-bold text-secondary">
                                     {{ $kategori }}
@@ -65,7 +65,9 @@
                                     @endforeach
                                 </ul>
                             @endif
-                        @endforeach
+                        @empty
+                        <span class="text-muted">Belum ada notifikasi.</span>
+                        @endforelse
                     </div>
                 </div>
 

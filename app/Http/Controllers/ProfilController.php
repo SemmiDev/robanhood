@@ -16,7 +16,8 @@ class ProfilController extends Controller
             'profil_polisis.unit_polisi',
             'profil_polisis.pangkat_polisi',
             'anggota_penanganans' => function ($query) {
-                $query->orderBy('created_at', 'desc');
+                $query->where('aktif', true) // Hanya ambil yang aktif
+                    ->orderBy('created_at', 'desc');
             },
             'anggota_penanganans.kasu',
             'anggota_penanganans.kasu.anggota_penanganans',
@@ -28,6 +29,7 @@ class ProfilController extends Controller
             'user' => $user,
         ]);
     }
+
 
     public function edit()
     {
@@ -95,8 +97,8 @@ class ProfilController extends Controller
                 $user->foto_ktp = $ktpPath;
             } else {
                 return back()
-                ->with('error', 'Format atau ukuran file KTP tidak valid (maks 2MB, jpg/png/pdf).')
-                ->withErrors(['ktp' => 'Format atau ukuran file KTP tidak valid (maks 2MB, jpg/png/pdf).']);
+                    ->with('error', 'Format atau ukuran file KTP tidak valid (maks 2MB, jpg/png/pdf).')
+                    ->withErrors(['ktp' => 'Format atau ukuran file KTP tidak valid (maks 2MB, jpg/png/pdf).']);
             }
         }
 
@@ -109,8 +111,8 @@ class ProfilController extends Controller
                 $user->foto_kk = $kkPath;
             } else {
                 return back()
-                ->with('error', 'Format atau ukuran file KK tidak valid (maks 2MB, jpg/png/pdf).')
-                ->withErrors(['kk' => 'Format atau ukuran file KK tidak valid (maks 2MB, jpg/png/pdf).']);
+                    ->with('error', 'Format atau ukuran file KK tidak valid (maks 2MB, jpg/png/pdf).')
+                    ->withErrors(['kk' => 'Format atau ukuran file KK tidak valid (maks 2MB, jpg/png/pdf).']);
             }
         }
 
