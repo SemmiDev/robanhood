@@ -653,6 +653,15 @@ class ManajemenKasusController extends Controller
 
                 PushNotification::SendOneSignalNotification($push, $title, $body, $url = $url);
             }
+
+            // set status anggota jika semua kasus dia sudah selesai
+            $listAnggotaPenanganan = AnggotaPenanganan::where('aktif', 1)->where('selesai', 0)->where('user_id', $anggotaPenanganan->user_id)->get();
+            if (count($listAnggotaPenanganan) == 0) {
+                // set status nya sedang bertugas
+                $user = User::find($anggotaPenanganan->user_id);
+                $user->status = "SEDANG_BERTUGAS";
+                $user->save();
+            }
         } else {
             $anggotaPenanganan->selesai = 0;
             $anggotaPenanganan->poin_diperoleh = 0;

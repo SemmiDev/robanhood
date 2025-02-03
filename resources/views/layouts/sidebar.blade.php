@@ -33,6 +33,14 @@
             </div>
             <ul class="navbar-nav" id="navbar-nav">
 
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{route('root')}}" aria-controls="sidebarDashboards">
+                        <i class="bx bxs-home"></i> <span>
+                            Home
+                        </span>
+                    </a>
+                </li>
+
                 @if (auth()->user()->peran == 'WARGA')
                     <li class="menu-title"><span>@lang('translation.menu')</span></li>
                     <li class="nav-item">

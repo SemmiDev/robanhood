@@ -186,7 +186,7 @@
                     const lng = position.coords.longitude;
 
                     // Set lokasi peta dan marker
-                    map.setView([lat, lng], 18);
+                    map.setView([lat, lng], 14);
                     marker.setLatLng([lat, lng]);
 
                     // Update input latitude dan longitude

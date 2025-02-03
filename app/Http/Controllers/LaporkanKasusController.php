@@ -19,13 +19,23 @@ class LaporkanKasusController extends Controller
 {
     public function index()
     {
+        $listKasus = Kasu::where('pelapor_id', '=', auth()->user()->id)
+            ->where('status', '=', 'MENUNGGU')
+            ->orWhere('status', '=', 'DALAM_PROSES')
+            ->get();
+
+        if (count($listKasus) > 0) {
+            return redirect(route('root.dashboardWarga'))->with('warning', 'Mohon maaf, saat ini Anda belum dapat membuat laporan baru. Silakan tunggu laporan sebelumnya diselesaikan terlebih dahulu');
+        }
+
         $kategoriKasus = KategoriKasu::all();
         return view('app.laporkan-kasus.create', [
             'kategoriKasus' => $kategoriKasus,
         ]);
     }
 
-    public function sos() {
+    public function sos()
+    {
         Kasu::create([
             'pelapor_id' => auth()->user()->id,
             'judul' => 'SOS',
@@ -44,6 +54,15 @@ class LaporkanKasusController extends Controller
 
     public function store(Request $request)
     {
+        $listKasus = Kasu::where('pelapor_id', '=', auth()->user()->id)
+            ->where('status', '=', 'MENUNGGU')
+            ->orWhere('status', '=', 'DALAM_PROSES')
+            ->get();
+
+        if (count($listKasus) > 0) {
+            return redirect(route('root.dashboardWarga'))->with('warning', 'Mohon maaf, saat ini Anda belum dapat membuat laporan baru. Silakan tunggu laporan sebelumnya diselesaikan terlebih dahulu');
+        }
+
         $request->validate([
             'judul' => 'required|string|max:255',
             'kategori_kasus_id' => 'required|exists:kategori_kasus,id',
@@ -78,7 +97,7 @@ class LaporkanKasusController extends Controller
             // Handle multiple file uploads
             if ($request->hasFile('bukti')) {
                 foreach ($request->file('bukti') as $file) {
-                   // Generate unique filename
+                    // Generate unique filename
                     $originalFileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); // Nama asli tanpa ekstensi
                     $timestamp = now()->format('YmdHis'); // Timestamp saat ini
                     $extension = $file->getClientOriginalExtension(); // Ekstensi file
@@ -109,7 +128,7 @@ class LaporkanKasusController extends Controller
             $push = [];
             $listAdmin = User::where('peran', '=', 'ADMIN')->get();
 
-            foreach($listAdmin as $adm) {
+            foreach ($listAdmin as $adm) {
                 // buat notifikasi
                 Notifikasi::create([
                     'kasus_id' => $kasus->id,
@@ -135,8 +154,7 @@ class LaporkanKasusController extends Controller
 
             DB::commit();
 
-            session()->flash('success', 'Laporan berhasil dikirim. Tunggu petugas untuk memproses laporan Anda.');
-            return redirect()->route('root');
+            return redirect(route('root.dashboardWarga'))->with('success', 'Laporan berhasil dikirim. Tunggu petugas untuk memproses laporan Anda.');
         } catch (\Exception $e) {
             DB::rollback();
 
