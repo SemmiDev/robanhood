@@ -19,9 +19,8 @@ class LaporkanKasusController extends Controller
 {
     public function index()
     {
-        $listKasus = Kasu::where('pelapor_id', '=', auth()->user()->id)
-            ->where('status', '=', 'MENUNGGU')
-            ->orWhere('status', '=', 'DALAM_PROSES')
+        $listKasus = Kasu::where('pelapor_id', auth()->user()->id)
+            ->whereIn('status', ['MENUNGGU', 'DALAM_PROSES'])
             ->get();
 
         if (count($listKasus) > 0) {
@@ -54,9 +53,8 @@ class LaporkanKasusController extends Controller
 
     public function store(Request $request)
     {
-        $listKasus = Kasu::where('pelapor_id', '=', auth()->user()->id)
-            ->where('status', '=', 'MENUNGGU')
-            ->orWhere('status', '=', 'DALAM_PROSES')
+        $listKasus = Kasu::where('pelapor_id', auth()->user()->id)
+            ->whereIn('status', ['MENUNGGU', 'DALAM_PROSES'])
             ->get();
 
         if (count($listKasus) > 0) {
