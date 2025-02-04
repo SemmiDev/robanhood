@@ -1153,18 +1153,18 @@ File: Main Js File
 				item.remove();
 			}
 
-			if (index + 1 === menuData.length) {
-				if (splitItem.insertAdjacentHTML) {
-					splitItem.insertAdjacentHTML(
-						"afterend",
-						'<li class="nav-item">\
-						<a class="nav-link" href="#sidebarMore" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarMore">\
-							<i class="ri-briefcase-2-line"></i> <span data-key="t-more">' + extraMenuName + '</span>\
-						</a>\
-						<div class="collapse menu-dropdown" id="sidebarMore"><ul class="nav nav-sm flex-column">' + newMenus + "</ul></div>\
-					</li>");
-				}
-			}
+			// if (index + 1 === menuData.length) {
+			// 	if (splitItem.insertAdjacentHTML) {
+			// 		splitItem.insertAdjacentHTML(
+			// 			"afterend",
+			// 			'<li class="nav-item">\
+			// 			<a class="nav-link" href="#sidebarMore" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarMore">\
+			// 				<i class="ri-briefcase-2-line"></i> <span data-key="t-more">' + extraMenuName + '</span>\
+			// 			</a>\
+			// 			<div class="collapse menu-dropdown" id="sidebarMore"><ul class="nav nav-sm flex-column">' + newMenus + "</ul></div>\
+			// 		</li>");
+			// 	}
+			// }
 		});
 	}
 
