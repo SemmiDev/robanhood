@@ -41,7 +41,7 @@
         </div>
 
         <!--end col-->
-        @if ($user->peran == 'POLISI' || $user->peran == 'ADMIN')
+        @if ($user->peran == 'POLISI')
             <div class="col-12 col-lg-auto order-last order-lg-0">
                 <div class="row text text-white-50 text-center">
                     <h1 class="text-white mb-1">
