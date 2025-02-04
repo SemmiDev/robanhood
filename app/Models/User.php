@@ -69,4 +69,10 @@ class User extends Authenticatable implements MustVerifyEmail
 	{
 		return $this->hasMany(ProfilPolisi::class);
 	}
+
+
+    public function getTotalPoinAttribute()
+    {
+        return $this->anggota_penanganans()->sum('poin_diperoleh');
+    }
 }

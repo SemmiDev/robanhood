@@ -8,31 +8,32 @@ class LeaderboardController extends Controller
 {
     public function index()
     {
-        // First get all users ordered by total points to establish base rankings
+        // Ambil semua pengguna dan hitung total poin dari anggota_penanganan
         $allUsers = User::where('peran', '!=', 'WARGA')
             ->where('peran', '!=', 'ADMIN')
-            ->orderBy('total_poin', 'DESC')
+            ->withSum('anggota_penanganans', 'poin_diperoleh') // Menggunakan Eloquent aggregation
+            ->orderByDesc('anggota_penanganans_sum_poin_diperoleh')
             ->get();
 
-        // Create a mapping of user IDs to their original rankings
+        // Membuat ranking berdasarkan poin yang diperoleh
         $rankings = [];
         foreach ($allUsers as $index => $user) {
             $rankings[$user->id] = $index + 1;
         }
 
-        // Build the filtered query
+        // Query pengguna berdasarkan filter pencarian
         $query = User::with(['anggota_penanganans'])
             ->where('peran', '!=', 'WARGA')
-            ->where('peran', '!=', 'ADMIN');
+            ->where('peran', '!=', 'ADMIN')
+            ->withSum('anggota_penanganans', 'poin_diperoleh');
 
         if (request()->has('q')) {
             $query->where('name', 'like', '%' . request('q') . '%');
         }
 
-        // Get filtered results but maintain original order by total_poin
-        $leaderboard = $query->orderBy('total_poin', 'DESC')->get();
+        // Ambil hasil leaderboard yang difilter dengan mempertahankan urutan
+        $leaderboard = $query->orderByDesc('anggota_penanganans_sum_poin_diperoleh')->get();
 
-        // Pass both the leaderboard and rankings to the view
         return view('app.leaderboard.index', [
             'leaderboard' => $leaderboard,
             'rankings' => $rankings
