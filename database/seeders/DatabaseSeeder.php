@@ -301,111 +301,86 @@ class DatabaseSeeder extends Seeder
 
         $kategoriKasus = [
             [
-                'nama' => 'Kecelakaan Tunggal',
-                'deskripsi' => 'Kecelakaan yang melibatkan satu kendaraan.',
-                'simbol' => 'kategori_kasus/simbol/tabrakan.png',
+                'nama' => 'Kecelakaan',
+                'deskripsi' => 'Kecelakaan kendaraan bermotor',
+                'simbol' => 'kategori_kasus/simbol/kecelakaan.png',
                 'pengingat' => 'Hati-hati berkendara, pastikan kondisi kendaraan dalam keadaan baik.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nama' => 'Kecelakaan Multikendaraan',
-                'deskripsi' => 'Kecelakaan yang melibatkan lebih dari satu kendaraan.',
+                'nama' => 'Tabrakan',
+                'deskripsi' => 'Tabrakan kendaraan di jalan raya',
                 'simbol' => 'kategori_kasus/simbol/tabrakan.png',
-                'pengingat' => 'Selalu jaga jarak aman dan perhatikan kondisi lalu lintas.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama' => 'Kecelakaan Pejalan Kaki',
-                'deskripsi' => 'Kecelakaan yang melibatkan pejalan kaki.',
-                'simbol' => 'kategori_kasus/simbol/kecelakaan.png',
-                'pengingat' => 'Hati-hati saat menyeberang jalan dan patuhi rambu lalu lintas.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama' => 'Kecelakaan Sepeda Motor',
-                'deskripsi' => 'Kecelakaan yang melibatkan kendaraan sepeda motor.',
-                'simbol' => 'kategori_kasus/simbol/warning.png',
-                'pengingat' => 'Gunakan helm dan selalu waspada terhadap kendaraan lain.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama' => 'Kecelakaan Mobil Penumpang',
-                'deskripsi' => 'Kecelakaan yang melibatkan mobil penumpang.',
-                'simbol' => 'kategori_kasus/simbol/warning.png',
-                'pengingat' => 'Gunakan sabuk pengaman dan jangan mengemudi dalam keadaan lelah.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama' => 'Perampokan',
-                'deskripsi' => 'Kasus pencurian dengan kekerasan atau ancaman kekerasan.',
-                'simbol' => 'kategori_kasus/simbol/warning.png',
-                'pengingat' => 'Waspada terhadap lingkungan sekitar, terutama di tempat sepi.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama' => 'Penipuan',
-                'deskripsi' => 'Kasus yang melibatkan tindakan tipu daya untuk mendapatkan keuntungan.',
-                'simbol' => 'kategori_kasus/simbol/warning.png',
-                'pengingat' => 'Jangan mudah percaya dengan tawaran mencurigakan, selalu cek kebenarannya.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama' => 'Pelecehan Seksual',
-                'deskripsi' => 'Kasus pelecehan yang bersifat seksual, baik fisik maupun verbal.',
-                'simbol' => 'kategori_kasus/simbol/warning.png',
-                'pengingat' => 'Jangan ragu untuk melapor jika mengalami atau melihat tindakan pelecehan.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama' => 'Penculikan',
-                'deskripsi' => 'Kasus penculikan orang tanpa izin atau secara paksa.',
-                'simbol' => 'kategori_kasus/simbol/warning.png',
-                'pengingat' => 'Selalu waspada terhadap orang asing, terutama untuk anak-anak.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama' => 'Tindak Terorisme',
-                'deskripsi' => 'Kasus yang melibatkan tindakan terorisme atau ancaman teror.',
-                'simbol' => 'kategori_kasus/simbol/warning.png',
-                'pengingat' => 'Laporkan aktivitas mencurigakan kepada pihak berwenang.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama' => 'Kejahatan Dunia Maya',
-                'deskripsi' => 'Kasus yang melibatkan kejahatan dalam dunia maya seperti peretasan atau penipuan online.',
-                'simbol' => 'kategori_kasus/simbol/warning.png',
-                'pengingat' => 'Jangan bagikan data pribadi sembarangan di internet.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama' => 'Pelanggaran Lalu Lintas',
-                'deskripsi' => 'Kasus pelanggaran peraturan lalu lintas seperti menerobos lampu merah.',
-                'simbol' => 'kategori_kasus/simbol/warning.png',
                 'pengingat' => 'Patuhi rambu lalu lintas demi keselamatan bersama.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
+                'nama' => 'Kebakaran Hutan',
+                'deskripsi' => 'Kebakaran yang merusak kawasan hutan',
+                'simbol' => 'kategori_kasus/simbol/kebakaran-hutan.png',
+                'pengingat' => 'Jaga kelestarian hutan, hindari membuang puntung rokok sembarangan.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama' => 'Kejahatan Cyber',
+                'deskripsi' => 'Tindak pidana di dunia maya',
+                'simbol' => 'kategori_kasus/simbol/kejahatan-cyber.png',
+                'pengingat' => 'Lindungi data pribadi dan waspada terhadap penipuan online.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama' => 'Kekerasan Seksual',
+                'deskripsi' => 'Tindak pidana pelecehan dan kekerasan seksual',
+                'simbol' => 'kategori_kasus/simbol/kekerasan-seksual.png',
+                'pengingat' => 'Hormati hak dan martabat setiap individu.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'nama' => 'Narkoba',
-                'deskripsi' => 'Kasus yang melibatkan penyalahgunaan atau perdagangan narkotika dan obat terlarang.',
+                'deskripsi' => 'Tindak pidana narkotika dan zat adiktif',
+                'simbol' => 'kategori_kasus/simbol/narkoba.png',
+                'pengingat' => 'Hindari narkoba, pilih hidup sehat dan produktif.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama' => 'Pembunuhan',
+                'deskripsi' => 'Tindak pidana pembunuhan berencana',
+                'simbol' => 'kategori_kasus/simbol/pembunuhan.png',
+                'pengingat' => 'Selesaikan masalah dengan kepala dingin, tanpa kekerasan.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama' => 'Pencurian',
+                'deskripsi' => 'Tindak pidana pengambilan barang milik orang lain',
+                'simbol' => 'kategori_kasus/simbol/pencurian.png',
+                'pengingat' => 'Jaga keamanan barang pribadi dan lingkungan.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama' => 'Perkelahian',
+                'deskripsi' => 'Tindak kekerasan antar individu atau kelompok',
+                'simbol' => 'kategori_kasus/simbol/perkelahian.png',
+                'pengingat' => 'Hindari konflik, komunikasikan perbedaan dengan santun.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'nama' => 'Lain-lain',
+                'deskripsi' => 'Kasus tidak terklasifikasi atau khusus',
                 'simbol' => 'kategori_kasus/simbol/warning.png',
-                'pengingat' => 'Jauhi narkoba, karena dapat merusak masa depan.',
+                'pengingat' => 'Tetap waspada dan junjung tinggi hukum.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
         ];
-
 
         foreach ($kategoriKasus as $kategori) {
             if (!KategoriKasu::where('nama', $kategori['nama'])->exists()) {
@@ -487,7 +462,7 @@ class DatabaseSeeder extends Seeder
         }
 
         // generate kasus
-        $kategoriKasusKecelakaan = KategoriKasu::where('nama', '=', 'Kecelakaan Tunggal')->first();
+        $kategoriKasusKecelakaan = KategoriKasu::where('nama', '=', 'Kecelakaan')->first();
 
         $listKasus = [
             [

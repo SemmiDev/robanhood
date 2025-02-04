@@ -29,6 +29,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::group(['middleware' => ['role:WARGA']], function () {
         Route::get('/dashboard-warga', [App\Http\Controllers\WargaDashboardController::class, 'index'])->name('root.dashboardWarga');
         Route::get('laporkan-kasus', [App\Http\Controllers\LaporkanKasusController::class, 'index'])->name('laporkanKasus');
+        Route::get('laporkan-kasus-pilih-kategori', [App\Http\Controllers\LaporkanKasusController::class, 'indexWithKategori'])->name('laporkanKasusPilihKategori');
         Route::post('laporkan-kasus', [App\Http\Controllers\LaporkanKasusController::class, 'store'])->name('laporkanKasus.store');
         Route::get('sos', [App\Http\Controllers\LaporkanKasusController::class, 'sos'])->name('sos');
         Route::get('/realtime/sekitar', [App\Http\Controllers\RealtimeManajemenKasusController::class, 'realtimeSekitar'])->name('realtimeSekitar');

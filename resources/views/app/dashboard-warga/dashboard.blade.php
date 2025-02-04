@@ -19,7 +19,7 @@
             <div class="d-flex justify-content-sm-end gap-2">
                 <button id="sos" onclick="confirmSos()" class="btn btn-danger">SOS</button>
                 <div>
-                    <a href="{{ route('laporkanKasus') }}" class="btn btn-success"><i
+                    <a href="{{ route('laporkanKasusPilihKategori') }}" class="btn btn-success"><i
                             class="ri-add-line align-bottom me-1"></i>Laporkan Kasus Baru</a>
                 </div>
             </div>

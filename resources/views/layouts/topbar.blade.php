@@ -10,7 +10,7 @@
                                 src="{{ asset('storage/' . $global_pengaturan_website->logo) }}" alt=""
                                 height="45">
                             <span class="display-4"
-                                style="font-size: 1.2rem; margin-right: 7px">{{ $global_pengaturan_website->nama }}</span>
+                                style="font-size: 1.2rem; margin-right: 10px">{{ $global_pengaturan_website->nama }}</span>
                             <span class="text-sm text-muted"
                                 style="font-size: 0.8rem; font-style:italic">{{ $global_pengaturan_website->deskripsi }}</span>
                         </span>
@@ -19,7 +19,7 @@
                                 src="{{ asset('storage/' . $global_pengaturan_website->logo) }}" alt=""
                                 height="45">
                             <span class="fw-bold text-info"
-                                style="font-size: 1.2rem; margin-right: 7px">{{ $global_pengaturan_website->nama }}</span>
+                                style="font-size: 1.2rem; margin-right: 10px">{{ $global_pengaturan_website->nama }}</span>
                             <span class="text-sm text-muted"
                                 style="font-size: 0.8rem; font-style:italic">{{ $global_pengaturan_website->deskripsi }}</span>
                         </span>

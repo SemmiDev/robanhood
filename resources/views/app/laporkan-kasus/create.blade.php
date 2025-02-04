@@ -87,8 +87,10 @@
 
                                         <div class="row">
 
+                                            <input type="number" name="kategori_kasus_id" value="{{request()->get('kategori_kasus_id', 1)}}" hidden>
 
-                                            <div class="col-12 col-lg-6 mb-3">
+
+                                            {{-- <div class="col-12 col-lg-6 mb-3">
                                                 <label for="kategori_kasus_id" class="form-label">Jenis Kejadian<span
                                                         class="text-danger">*</span></label>
                                                 <select class="form-control kategori-select2" name="kategori_kasus_id"
@@ -102,12 +104,12 @@
                                                         <strong>{{ $message }}</strong>
                                                     </span>
                                                 @enderror
-                                            </div>
+                                            </div> --}}
 
-                                            <div class="col-12 col-lg-6 mb-3">
+                                            <div class="col-12 col-lg-12 mb-3">
                                                 <label for="tingkat_keparahan" class="form-label">Tingkat Keparahan<span
                                                         class="text-danger">*</span></label>
-                                                <select class="form-control tingkat-keparahan-select2"
+                                                <select class="form-control form-select"
                                                     name="tingkat_keparahan">
                                                     <option value="RINGAN">RINGAN</option>
                                                     <option value="SEDANG">SEDANG</option>

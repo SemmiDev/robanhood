@@ -17,6 +17,23 @@ use Illuminate\Support\Facades\Storage;
 
 class LaporkanKasusController extends Controller
 {
+    public function indexWithKategori(Request $request)
+    {
+        $listKasus = Kasu::where('pelapor_id', auth()->user()->id)
+            ->whereIn('status', ['MENUNGGU', 'DALAM_PROSES'])
+            ->get();
+
+        if (count($listKasus) > 0) {
+            return redirect(route('root.dashboardWarga'))->with('warning', 'Mohon maaf, saat ini Anda belum dapat membuat laporan baru. Silakan tunggu laporan sebelumnya diselesaikan terlebih dahulu');
+        }
+
+        $kategoriKasus = KategoriKasu::all();
+
+        return view('app.laporkan-kasus.create-with-kategori', [
+            'kategoriKasus' => $kategoriKasus,
+        ]);
+    }
+
     public function index()
     {
         $listKasus = Kasu::where('pelapor_id', auth()->user()->id)
