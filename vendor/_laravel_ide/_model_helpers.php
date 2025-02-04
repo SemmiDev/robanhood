@@ -2699,7 +2699,6 @@ namespace App\Models {
      *
      * @property \Illuminate\Support\Carbon|null $updated_at
      * @property \Illuminate\Support\Carbon|null $created_at
-     * @property int $total_poin
      * @property \Illuminate\Support\Carbon|null $last_login
      * @property \Illuminate\Support\Carbon|null $update_lokasi_terakhir
      * @property float|null $longitude_terakhir
@@ -2722,6 +2721,7 @@ namespace App\Models {
      * @property string $email
      * @property string $name
      * @property int $id
+     * @property-read mixed $total_poin
      * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\AnggotaPenanganan> $anggota_penanganans
      * @property-read int|null $anggota_penanganans_count
      * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Kasu> $kasus
@@ -2754,7 +2754,6 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder|User whereLongitudeTerakhir($value)
      * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdateLokasiTerakhir($value)
      * @method static \Illuminate\Database\Eloquent\Builder|User whereLastLogin($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|User whereTotalPoin($value)
      * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
