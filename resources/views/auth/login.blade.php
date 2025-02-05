@@ -1,7 +1,8 @@
 @extends('layouts.master-without-nav')
 @section('title')
-Masuk
+    Masuk
 @endsection
+
 @section('content')
     <div class="auth-page-wrapper pt-5">
         <!-- auth page bg -->
@@ -110,6 +111,10 @@ Masuk
                                         </div>
                                     </form>
                                 </div>
+
+                                <!-- Download Section -->
+
+
                             </div>
                             <!-- end card body -->
                         </div>
@@ -118,6 +123,13 @@ Masuk
                         <div class="mt-4 text-center">
                             <p class="mb-0">Belum punya akun? <a href="{{ route('register') }}"
                                     class="fw-semibold text-primary text-decoration-none"> Daftar </a> </p>
+                        </div>
+
+                        <div class="container mt-3 mx-auto text-center">
+                            <a href="https://raw.githubusercontent.com/SemmiDev/robanhood/main/Robanhood.apk" class="underline text-info">
+                                <i class="ri-download-2-line"></i>
+                                Download Aplikasi Android
+                            </a>
                         </div>
 
                     </div>
