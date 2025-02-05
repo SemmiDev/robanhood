@@ -71,7 +71,7 @@
 
 @section('script')
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
-    <script src="{{ URL::asset('build/js/app/dashboard.js') }}"></script>
+    {{-- <script src="{{ URL::asset('build/js/app/dashboard.js') }}"></script> --}}
     <script src="{{ URL::asset('build/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ URL::asset('build/libs/jsvectormap/js/jsvectormap.min.js') }}"></script>
     <script src="{{ URL::asset('build/libs/jsvectormap/maps/world-merc.js') }}"></script>

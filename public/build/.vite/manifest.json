@@ -163,6 +163,30 @@
     "file": "icons/bg-pattern.png",
     "src": "resources/images/landing/bg-pattern.png"
   },
+  "resources/images/modal-bg.png": {
+    "file": "icons/modal-bg.png",
+    "src": "resources/images/modal-bg.png"
+  },
+  "resources/images/new.png": {
+    "file": "icons/new.png",
+    "src": "resources/images/new.png"
+  },
+  "resources/images/sidebar/img-1.jpg": {
+    "file": "icons/img-1.jpg",
+    "src": "resources/images/sidebar/img-1.jpg"
+  },
+  "resources/images/sidebar/img-2.jpg": {
+    "file": "icons/img-2.jpg",
+    "src": "resources/images/sidebar/img-2.jpg"
+  },
+  "resources/images/sidebar/img-3.jpg": {
+    "file": "icons/img-3.jpg",
+    "src": "resources/images/sidebar/img-3.jpg"
+  },
+  "resources/images/sidebar/img-4.jpg": {
+    "file": "icons/img-4.jpg",
+    "src": "resources/images/sidebar/img-4.jpg"
+  },
   "resources/scss/app.scss": {
     "file": "css/app.min.css",
     "src": "resources/scss/app.scss",
