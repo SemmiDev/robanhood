@@ -76,8 +76,15 @@
         </footer>
     </div>
 @endsection
+
 @section('script')
     <script src="{{ URL::asset('build/libs/leaflet/leaflet.js') }}"></script>
+    <script src="{{ URL::asset('build/libs/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ URL::asset('build/libs/jsvectormap/js/jsvectormap.min.js') }}"></script>
+    <script src="{{ URL::asset('build/libs/jsvectormap/maps/world-merc.js') }}"></script>
+    <script src="{{ URL::asset('build/libs/swiper/swiper-bundle.min.js') }}"></script>
+    <script src="{{ URL::asset('build/js/app/dashboard.js') }}"></script>
+    <script src="{{ URL::asset('build/js/app.js') }}"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
