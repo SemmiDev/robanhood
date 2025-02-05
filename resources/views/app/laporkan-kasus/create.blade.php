@@ -71,10 +71,10 @@
                                                 @enderror
                                             </div>
 
-                                                <div class="col-12 col-lg-6 mb-3">
-                                                    <label for="alamat" class="form-label">Lokasi Kejadian</label>
-                                                    <textarea class="form-control" id="alamat" name="alamat" placeholder="Jalan sudirman" rows="1"></textarea>
-                                                </div>
+                                            <div class="col-12 col-lg-6 mb-3">
+                                                <label for="alamat" class="form-label">Lokasi Kejadian</label>
+                                                <textarea class="form-control" id="alamat" name="alamat" placeholder="Jalan sudirman" rows="1"></textarea>
+                                            </div>
 
                                         </div>
 
@@ -86,7 +86,8 @@
 
                                         <div class="row">
 
-                                            <input type="number" name="kategori_kasus_id" value="{{request()->get('kategori_kasus_id', 1)}}" hidden>
+                                            <input type="number" name="kategori_kasus_id"
+                                                value="{{ request()->get('kategori_kasus_id', 1) }}" hidden>
 
 
                                             {{-- <div class="col-12 col-lg-6 mb-3">
@@ -108,8 +109,7 @@
                                             <div class="col-12 col-lg-12 mb-3">
                                                 <label for="tingkat_keparahan" class="form-label">Tingkat Keparahan<span
                                                         class="text-danger">*</span></label>
-                                                <select class="form-control form-select"
-                                                    name="tingkat_keparahan">
+                                                <select class="form-control form-select" name="tingkat_keparahan">
                                                     <option value="RINGAN">RINGAN</option>
                                                     <option value="SEDANG">SEDANG</option>
                                                     <option value="BERAT">BERAT</option>
@@ -161,6 +161,7 @@
         </footer>
     </div>
 @endsection
+
 @section('script')
     <script src="{{ URL::asset('build/libs/leaflet/leaflet.js') }}"></script>
     <script src="{{ URL::asset('build/libs/leaflet/leaflet.js') }}"></script>
@@ -177,6 +178,37 @@
     <script>
         let map;
         let marker;
+
+        function initMap() {
+            if (map) return; // Mencegah inisialisasi ganda
+
+            // Elemen peta dengan attributionControl dinonaktifkan
+            map = L.map('map', {
+                attributionControl: false
+            }).setView([0, 0], 10);
+
+            // Layer peta dasar (OpenStreetMap) tanpa attribution
+            const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: ''
+            }).addTo(map);
+
+            // Buat icon marker merah
+            const redIcon = L.icon({
+                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
+
+            // Tambahkan marker yang tidak bisa dipindahkan dengan icon merah
+            marker = L.marker([0, 0], {
+                draggable: false,
+                icon: redIcon
+            }).addTo(map);
+        }
 
         $(document).ready(function() {
             // Inisialisasi Select2
@@ -212,36 +244,5 @@
                 alert('Geolocation tidak didukung oleh browser ini.');
             }
         });
-
-        function initMap() {
-            if (map) return; // Mencegah inisialisasi ganda
-
-            // Elemen peta dengan attributionControl dinonaktifkan
-            map = L.map('map', {
-                attributionControl: false
-            }).setView([0, 0], 10);
-
-            // Layer peta dasar (OpenStreetMap) tanpa attribution
-            const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: ''
-            }).addTo(map);
-
-            // Buat icon marker merah
-            const redIcon = L.icon({
-                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
-                shadowSize: [41, 41]
-            });
-
-            // Tambahkan marker yang tidak bisa dipindahkan dengan icon merah
-            marker = L.marker([0, 0], {
-                draggable: false,
-                icon: redIcon
-            }).addTo(map);
-        }
     </script>
 @endsection

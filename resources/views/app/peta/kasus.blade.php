@@ -1,4 +1,4 @@
-@extends('layouts.master-without-nav')
+@extends('layouts.master')
 @section('title')
     Peta Lokasi Kasus dan Polisi Realtime
 @endsection
@@ -7,13 +7,14 @@
     <link href="{{ URL::asset('build/libs/leaflet/leaflet.css') }}" rel="stylesheet" type="text/css" />
     <style>
         #persebaran-kasus-dan-polisi {
-            height: 100vh;
-            width: 100vw;
+            height: calc(100vh - 140px);
+            width: 100%;
             margin: 0;
             padding: 0;
-            position: fixed;
-            top: 0;
-            left: 0;
+            border-radius: 1.5rem;
+            /* Adds rounded corners */
+            overflow: hidden;
+            /* Ensures the map content respects the rounded corners */
         }
 
         .pulse-MENUNGGU {

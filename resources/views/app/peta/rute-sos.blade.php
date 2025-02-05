@@ -8,9 +8,15 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <style>
         #rute {
-            height: 100vh;
-            position: relative;
             z-index: 1;
+            height: calc(100vh - 140px);
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            border-radius: 1.5rem;
+            /* Adds rounded corners */
+            overflow: hidden;
+            /* Ensures the map content respects the rounded corners */
         }
 
         .leaflet-popup-content img {

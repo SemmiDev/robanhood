@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html>
+@extends('layouts.master')
+@section('title')
+    Scan Realtime
+@endsection
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scan Realtime</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+@section('css')
+    <link href="{{ URL::asset('build/libs/leaflet/leaflet.css') }}" rel="stylesheet" type="text/css" />
     <style>
         * {
             margin: 0;
@@ -18,9 +17,16 @@
         }
 
         #map-container {
-            height: 100vh;
-            width: 100vw;
+            z-index: 1;
+            height: calc(100vh - 140px);
+            width: 100%;
+            margin: 0;
+            padding: 0;
             position: relative;
+            border-radius: 1.5rem;
+            /* Adds rounded corners */
+            overflow: hidden;
+            /* Ensures the map content respects the rounded corners */
         }
 
         #map {
@@ -132,9 +138,9 @@
             }
         }
     </style>
-</head>
+@endsection
 
-<body>
+@section('content')
     <div id="map-container">
         <div id="map"></div>
         <div class="recommendations">
@@ -142,8 +148,12 @@
             <div id="alerts-list"></div>
         </div>
     </div>
+@endsection
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+
+@section('script')
+    <script src="{{ URL::asset('build/js/app.js') }}"></script>
+    <script src="{{ URL::asset('build/libs/leaflet/leaflet.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize map with closer default zoom
@@ -236,7 +246,11 @@
 
             // Initialize geolocation watching
             if ("geolocation" in navigator) {
-                const options = {enableHighAccuracy:false,maximumAge:Infinity, timeout:60000}
+                const options = {
+                    enableHighAccuracy: false,
+                    maximumAge: Infinity,
+                    timeout: 60000
+                }
 
                 // Watch position and update marker
                 navigator.geolocation.watchPosition(function(position) {
@@ -272,6 +286,4 @@
             }
         });
     </script>
-</body>
-
-</html>
+@endsection
