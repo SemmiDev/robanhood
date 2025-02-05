@@ -194,8 +194,8 @@
                     const lat = position.coords.latitude;
                     const lng = position.coords.longitude;
 
-                    // Set lokasi peta dan marker
-                    map.setView([lat, lng], 14);
+                    // Set lokasi peta dan marker dengan zoom level yang lebih jauh (angka lebih kecil)
+                    map.setView([lat, lng], 10);
                     marker.setLatLng([lat, lng]);
 
                     // Update input latitude dan longitude
@@ -204,10 +204,10 @@
                 }, function(error) {
                     console.error("Geolocation error: ", error);
                     alert('Tidak dapat mengambil lokasi. Menampilkan lokasi default.');
-                    // Lokasi fallback
+                    // Lokasi fallback dengan zoom level yang lebih jauh
                     const defaultLat = -6.200000;
                     const defaultLng = 106.816666; // Jakarta
-                    map.setView([defaultLat, defaultLng], 18);
+                    map.setView([defaultLat, defaultLng], 10);
                     marker.setLatLng([defaultLat, defaultLng]);
                 });
             } else {
@@ -221,31 +221,13 @@
             // Elemen peta dengan attributionControl dinonaktifkan
             map = L.map('map', {
                 attributionControl: false
-            }).setView([0, 0], 13);
+            }).setView([0, 0], 10);
 
             // Layer peta dasar (OpenStreetMap) tanpa attribution
             const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: ''
-            });
-
-            // Layer satelit (Google Satellite) tanpa attribution
-            const satelliteLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-                maxZoom: 20,
-                attribution: ''
-            });
-
-            // Tambahkan layer satelit sebagai default
-            satelliteLayer.addTo(map);
-
-            // Buat control untuk layer
-            const baseMaps = {
-                "Satelit": satelliteLayer,
-                "Peta Biasa": osmLayer
-            };
-
-            // Tambahkan control layer ke peta
-            L.control.layers(baseMaps).addTo(map);
+            }).addTo(map);
 
             // Buat icon marker merah
             const redIcon = L.icon({
