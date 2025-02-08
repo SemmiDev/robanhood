@@ -150,7 +150,7 @@
     <script src="{{ URL::asset('build/libs/leaflet/leaflet.js') }}"></script>
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
 
-    <script>
+    <script defer>
         // Map configuration constants
         const MAP_CONFIG = {
             defaultLocation: {
