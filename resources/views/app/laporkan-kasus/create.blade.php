@@ -195,7 +195,7 @@
                 attribution: '',
                 crossOrigin: true,
                 updateWhenIdle: true,
-                updateWhenZooming: false
+                updateWhenZooming: true
             }).addTo(map);
 
             // Create marker
