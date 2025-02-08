@@ -2,6 +2,7 @@
 
 @section('css')
     <link href="{{ URL::asset('build/libs/leaflet/leaflet.css') }}" rel="stylesheet" type="text/css" />
+
     <style>
         #map {
             height: 300px;
@@ -89,23 +90,6 @@
                                             <input type="number" name="kategori_kasus_id"
                                                 value="{{ request()->get('kategori_kasus_id', 1) }}" hidden>
 
-
-                                            {{-- <div class="col-12 col-lg-6 mb-3">
-                                                <label for="kategori_kasus_id" class="form-label">Jenis Kejadian<span
-                                                        class="text-danger">*</span></label>
-                                                <select class="form-control kategori-select2" name="kategori_kasus_id"
-                                                    required>
-                                                    @foreach ($kategoriKasus as $kategori)
-                                                        <option value="{{ $kategori->id }}">{{ $kategori->nama }}</option>
-                                                    @endforeach
-                                                </select>
-                                                @error('kategori_kasus_id')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </div> --}}
-
                                             <div class="col-12 col-lg-12 mb-3">
                                                 <label for="tingkat_keparahan" class="form-label">Tingkat Keparahan<span
                                                         class="text-danger">*</span></label>
@@ -164,84 +148,134 @@
 
 @section('script')
     <script src="{{ URL::asset('build/libs/leaflet/leaflet.js') }}"></script>
-    <script src="{{ URL::asset('build/libs/leaflet/leaflet.js') }}"></script>
-    <script src="{{ URL::asset('build/libs/apexcharts/apexcharts.min.js') }}"></script>
-    <script src="{{ URL::asset('build/libs/jsvectormap/js/jsvectormap.min.js') }}"></script>
-    <script src="{{ URL::asset('build/libs/jsvectormap/maps/world-merc.js') }}"></script>
-    <script src="{{ URL::asset('build/libs/swiper/swiper-bundle.min.js') }}"></script>
-    {{-- <script src="{{ URL::asset('build/js/app/dashboard.js') }}"></script> --}}
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
     <script>
-        let map;
-        let marker;
+        // Map configuration constants
+        const MAP_CONFIG = {
+            defaultLocation: {
+                lat: -6.200000,
+                lng: 106.816666,
+                zoom: 10
+            },
+            userLocationZoom: 15,
+            tileLayerUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            markerIconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+            markerShadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png'
+        };
 
+        // Initialize map components
+        let map = null;
+        let marker = null;
+
+        // Create marker icon once instead of on every marker creation
+        const redIcon = L.icon({
+            iconUrl: MAP_CONFIG.markerIconUrl,
+            shadowUrl: MAP_CONFIG.markerShadowUrl,
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+
+        // Initialize map with lazy loading
         function initMap() {
-            if (map) return; // Mencegah inisialisasi ganda
+            if (map) return;
 
-            // Elemen peta dengan attributionControl dinonaktifkan
+            // Create map with minimal initial configuration
             map = L.map('map', {
-                attributionControl: false
-            }).setView([0, 0], 10);
-
-            // Layer peta dasar (OpenStreetMap) tanpa attribution
-            const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: ''
-            }).addTo(map);
-
-            // Buat icon marker merah
-            const redIcon = L.icon({
-                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
-                shadowSize: [41, 41]
+                attributionControl: false,
+                zoomControl: true,
+                minZoom: 3
             });
 
-            // Tambahkan marker yang tidak bisa dipindahkan dengan icon merah
+            // Add tile layer with better caching options
+            L.tileLayer(MAP_CONFIG.tileLayerUrl, {
+                maxZoom: 19,
+                attribution: '',
+                crossOrigin: true,
+                updateWhenIdle: true,
+                updateWhenZooming: false
+            }).addTo(map);
+
+            // Create marker
             marker = L.marker([0, 0], {
                 draggable: false,
                 icon: redIcon
             }).addTo(map);
+
+            // Set initial view with animation disabled for faster initial load
+            map.setView(
+                [MAP_CONFIG.defaultLocation.lat, MAP_CONFIG.defaultLocation.lng],
+                MAP_CONFIG.defaultLocation.zoom, {
+                    animate: false
+                }
+            );
         }
 
-        $(document).ready(function() {
-            // Inisialisasi Select2
-            $('.kategori-select2').select2();
-            $('.tingkat-keparahan-select2').select2();
+        // Handle location updates
+        function updateLocation(lat, lng, zoom) {
+            if (!map || !marker) return;
 
-            // Inisialisasi peta
+            marker.setLatLng([lat, lng]);
+            map.setView([lat, lng], zoom, {
+                animate: false
+            });
+
+            // Update form inputs
+            $('#latitude').val(lat);
+            $('#longitude').val(lng);
+        }
+
+        // Get user location with timeout
+        function getUserLocation() {
+            return new Promise((resolve, reject) => {
+                const timeout = setTimeout(() => {
+                    reject(new Error('Location request timed out'));
+                }, 5000);
+
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        clearTimeout(timeout);
+                        resolve({
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        });
+                    },
+                    (error) => {
+                        clearTimeout(timeout);
+                        reject(error);
+                    }, {
+                        enableHighAccuracy: false,
+                        timeout: 5000,
+                        maximumAge: 0
+                    }
+                );
+            });
+        }
+
+        // Initialize everything when document is ready
+        $(document).ready(async function() {
+            // Initialize Select2 with deferred loading
+            setTimeout(() => {
+                $('.kategori-select2, .tingkat-keparahan-select2').select2();
+            }, 0);
+
+            // Initialize map
             initMap();
 
-            // Ambil lokasi pengguna
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-
-                    // Set lokasi peta dan marker dengan zoom level yang lebih jauh (angka lebih kecil)
-                    map.setView([lat, lng], 10);
-                    marker.setLatLng([lat, lng]);
-
-                    // Update input latitude dan longitude
-                    $('#latitude').val(lat);
-                    $('#longitude').val(lng);
-                }, function(error) {
-                    console.error("Geolocation error: ", error);
-                    alert('Tidak dapat mengambil lokasi. Menampilkan lokasi default.');
-                    // Lokasi fallback dengan zoom level yang lebih jauh
-                    const defaultLat = -6.200000;
-                    const defaultLng = 106.816666; // Jakarta
-                    map.setView([defaultLat, defaultLng], 10);
-                    marker.setLatLng([defaultLat, defaultLng]);
-                });
-            } else {
-                alert('Geolocation tidak didukung oleh browser ini.');
+            try {
+                // Get user location
+                const position = await getUserLocation();
+                updateLocation(position.lat, position.lng, MAP_CONFIG.userLocationZoom);
+            } catch (error) {
+                console.warn('Geolocation error:', error);
+                // Fall back to default location
+                updateLocation(
+                    MAP_CONFIG.defaultLocation.lat,
+                    MAP_CONFIG.defaultLocation.lng,
+                    MAP_CONFIG.defaultLocation.zoom
+                );
             }
         });
     </script>
