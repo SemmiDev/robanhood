@@ -228,27 +228,29 @@
         }
 
         // Get user location with timeout
-        function getUserLocation() {
-            return new Promise((resolve, reject) => {
-                const timeout = setTimeout(() => {
-                    reject(new Error('Location request timed out'));
-                }, 5000);
+        // Fungsi mendapatkan lokasi dengan fallback ke default
+        async function getUserLocation() {
+            return new Promise((resolve) => {
+                if (!navigator.geolocation) {
+                    console.warn("Geolocation tidak didukung di browser ini.");
+                    resolve(null);
+                    return;
+                }
 
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
-                        clearTimeout(timeout);
                         resolve({
                             lat: position.coords.latitude,
                             lng: position.coords.longitude
                         });
                     },
                     (error) => {
-                        clearTimeout(timeout);
-                        reject(error);
+                        console.warn("Gagal mendapatkan lokasi:", error.message);
+                        resolve(null);
                     }, {
-                        enableHighAccuracy: false,
-                        timeout: 5000,
-                        maximumAge: 0
+                        enableHighAccuracy: true, // Coba mendapatkan lokasi seakurat mungkin
+                        timeout: 3000, // Batasi waktu tunggu agar tidak terlalu lama
+                        maximumAge: 1000 // Gunakan cache lokasi terbaru jika ada
                     }
                 );
             });
@@ -256,26 +258,16 @@
 
         // Initialize everything when document is ready
         $(document).ready(async function() {
-            // Initialize Select2 with deferred loading
-            setTimeout(() => {
-                $('.kategori-select2, .tingkat-keparahan-select2').select2();
-            }, 0);
-
             // Initialize map
             initMap();
 
-            try {
-                // Get user location
-                const position = await getUserLocation();
+            const position = await getUserLocation();
+            if (position) {
                 updateLocation(position.lat, position.lng, MAP_CONFIG.userLocationZoom);
-            } catch (error) {
-                console.warn('Geolocation error:', error);
-                // Fall back to default location
-                updateLocation(
-                    MAP_CONFIG.defaultLocation.lat,
-                    MAP_CONFIG.defaultLocation.lng,
-                    MAP_CONFIG.defaultLocation.zoom
-                );
+            } else {
+                console.warn("Menggunakan lokasi default (Jakarta).");
+                updateLocation(MAP_CONFIG.defaultLocation.lat, MAP_CONFIG.defaultLocation.lng, MAP_CONFIG
+                    .defaultLocation.zoom);
             }
         });
     </script>
