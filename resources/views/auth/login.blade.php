@@ -125,12 +125,12 @@
                                     class="fw-semibold text-primary text-decoration-none"> Daftar </a> </p>
                         </div>
 
-                        <div class="container mt-3 mx-auto text-center">
+                        {{-- <div class="container mt-3 mx-auto text-center">
                             <a href="https://raw.githubusercontent.com/SemmiDev/robanhood/main/Robanhood.apk" class="underline text-info">
                                 <i class="ri-download-2-line"></i>
                                 Download Aplikasi Android
                             </a>
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>
