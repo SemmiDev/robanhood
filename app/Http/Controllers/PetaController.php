@@ -313,6 +313,7 @@ class PetaController extends Controller
             $nama = $pangkat . ' ' . $user->name;
             $status = $user->status;
             $marker = $status == "SEDANG_BERTUGAS" ? "policeIcon" : "policeAreOnDutyIcon";
+            $duty = $status == "SEDANG_BERTUGAS" ? true : false;
 
             $bindPopUp = '
             <div style="max-width: 300px; font-family: Arial, sans-serif; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); overflow: hidden; background: #fff;">
@@ -333,6 +334,7 @@ class PetaController extends Controller
                 "id" => $user->id,
                 "user" => $user,
                 "maker" => $marker,
+                'onDuty' => $duty,
                 "bindPopup" => $bindPopUp,
                 "formatName" => $pangkat . ' ' . $user->name,
                 "lastCoordinate" => [$user->latitude_terakhir, $user->longitude_terakhir]
