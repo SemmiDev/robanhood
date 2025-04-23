@@ -313,7 +313,11 @@ class PetaController extends Controller
             $nama = $pangkat . ' ' . $user->name;
             $status = $user->status;
             $marker = $status == "SEDANG_BERTUGAS" ? "policeIcon" : "policeAreOnDutyIcon";
-            $duty = $status == "SEDANG_BERTUGAS" ? true : false;
+
+            $duty = false;
+            if ($status == "SEDANG_MENANGANI_KASUS"){
+                $duty = true;
+            }
 
             $bindPopUp = '
             <div style="max-width: 300px; font-family: Arial, sans-serif; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); overflow: hidden; background: #fff;">
